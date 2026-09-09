@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1788965962 source:c:\users\ryzen\onedrive\desktop\info\c projects\hexdump clone\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
