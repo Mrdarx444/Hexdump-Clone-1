@@ -2,9 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+// Hex-dump Clone
+
 int get_hex_digits_count(int n) {
     char buffer[32];
-    int digits = sprintf(buffer, "%X", n);
+    int digits = sprintf(buffer, "%X", n); // transform data to Hex format and return it's new length
     return digits;
 }
 
@@ -25,7 +27,7 @@ void display_line(char buffer[], int size, int digits, int offset) {
             printf("0");
             printf("%x ", buffer[i]);
         }
-        else if (get_hex_digits_count((int)buffer[i]) > 2) {
+        else if (get_hex_digits_count((int)buffer[i]) > 2) { // if outside the simple ASCII range (Like UTF-8)
             printf("?? ");
         }
         else {
@@ -40,7 +42,7 @@ void display_line(char buffer[], int size, int digits, int offset) {
 
     // ASCII Format
     for (int i = 0; i < size; i++) {
-        if (buffer[i] < ' ' || buffer[i] > '~') buffer[i] = '.';
+        if (buffer[i] < ' ' || buffer[i] > '~') buffer[i] = '.'; // if Not printable Char (Simple ASCII)
         printf("%c", buffer[i]);
     }
     printf(" |\n");
@@ -48,10 +50,10 @@ void display_line(char buffer[], int size, int digits, int offset) {
 
 void display_hexdump(FILE *file, int buffer_size) {
     char buffer[buffer_size];
-    char c;
+    int c;
     int position = 0;
     while ((c = fgetc(file)) != EOF) {
-        buffer[position%buffer_size] = c;
+        buffer[position%buffer_size] = (char)c;
         position++;
         if (position % buffer_size == 0) {
             display_line(buffer, buffer_size, buffer_size, position-buffer_size);
@@ -68,7 +70,7 @@ int main()
     fgets(path, 1024, stdin);
     path[strlen(path)-1] = '\0';
     FILE *file = fopen(path, "r");
-    while (file == NULL) {
+    while (file == NULL) { // if path does not exist
         printf("Can't Find file '%s' Try again: ", path);
         fgets(path, 1024, stdin);
         path[strlen(path)-1] = '\0';
